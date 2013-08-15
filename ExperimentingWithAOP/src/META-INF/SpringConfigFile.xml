@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="
+        http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd
+        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd">
+
+	<bean id="customerImpl" class="com.sanjeeb.aop.application.CustomerImpl" />
+	<bean id="cafeOwner" class="com.sanjeeb.aop.concern.CafeOwner" />
+	<bean id="internetAdvice" class="com.sanjeeb.aop.advisor.InternetAdvice">
+		<property name="cafeOwner" ref="cafeOwner" />
+	</bean>
+	<bean id="cafeOwnerBeforeAndAfterAdvice"
+		class="org.springframework.aop.support.RegexpMethodPointcutAdvisor">
+		<property name="advice">
+			<ref local="internetAdvice" />
+		</property>
+		<property name="pattern">
+			<value>.*</value>
+		</property>
+	</bean>
+	<bean id="customerProxy" class="org.springframework.aop.framework.ProxyFactoryBean">
+		<property name="target">
+			<ref local="customerImpl" />
+		</property>
+		<property name="proxyInterfaces">
+			<value>com.sanjeeb.aop.application.Customer</value>
+		</property>
+		<property name="interceptorNames">
+			<list>
+				<value>cafeOwnerBeforeAndAfterAdvice</value>
+			</list>
+		</property>
+	</bean>
+</beans>
