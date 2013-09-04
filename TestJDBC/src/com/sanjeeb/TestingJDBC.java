@@ -5,16 +5,18 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.ResultSet;
 
+import com.mysql.jdbc.Driver;
+
 public class TestingJDBC {
 
 	public static void main(String[] args) {
 		String portNumber = "3306";
 		String user = "root";
 		String password = "abc123";
-		String url = "jdbc:mysql://localhost/";
 		String dbName = "first_db";
+		String url = "jdbc:mysql://localhost:" + portNumber + "/" + dbName;
 		String tableName = "";
-		Connection conn = getConnection(url, portNumber, user, password);
+		Connection conn = getConnection(url, user, password);
 		ptsmtShowDatabase(conn);
 		ptsmtUseDatabase(conn, dbName);
 		//ptsmtShowTables(conn);
@@ -22,15 +24,29 @@ public class TestingJDBC {
 		closeConnection(conn);
 	}
 	
-	private static Connection getConnection(String url, String portNumber, String user, String password) {
+	private static Connection getConnection(String url, String user, String password) {
 		Connection conn = null;
 		try {
 			Class.forName("com.mysql.jdbc.Driver").newInstance();
-			conn =  DriverManager.getConnection(url, user, password);
+			conn = DriverManager.getConnection(url, user, password);
 		} catch (ClassNotFoundException | IllegalAccessException | InstantiationException | SQLException ex) {
 			ex.printStackTrace();
 		}
 		return conn;
+	}
+	
+	private static String constructConnectionString(String url, String portNumber, String user, String password, String dbName) {
+		StringBuilder connectionString = new StringBuilder();
+		connectionString.append("\"")
+						.append(url)
+						.append(":" + portNumber)
+						.append("/" + dbName)
+						.append("\", \"")
+						.append(user)
+						.append("\", \"")
+						.append(password)
+						.append("\"");
+		return connectionString.toString();
 	}
 	
 	private static void ptsmtRunCreateTable(Connection conn, String tableName ) {
