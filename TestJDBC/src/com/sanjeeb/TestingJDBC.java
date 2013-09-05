@@ -4,8 +4,8 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.ResultSet;
-
-import com.mysql.jdbc.Driver;
+import java.util.Iterator;
+import java.util.Map;
 
 public class TestingJDBC {
 
@@ -15,12 +15,13 @@ public class TestingJDBC {
 		String password = "abc123";
 		String dbName = "first_db";
 		String url = "jdbc:mysql://localhost:" + portNumber + "/" + dbName;
-		String tableName = "";
+		String tableName = "Persons";
 		Connection conn = getConnection(url, user, password);
-		ptsmtShowDatabase(conn);
-		ptsmtUseDatabase(conn, dbName);
-		//ptsmtShowTables(conn);
-		//runCreateTable(getConnection(url, portNumber, user, password), tableName)
+		showDatabasePST(conn);
+		for(int i = 0; i < 7; ++i)
+			runInsertIntoPersonTablePST(conn, tableName, PersonFactory.getPerson());
+		
+		// showTablesPST(conn);
 		closeConnection(conn);
 	}
 	
@@ -35,52 +36,52 @@ public class TestingJDBC {
 		return conn;
 	}
 	
-	private static String constructConnectionString(String url, String portNumber, String user, String password, String dbName) {
-		StringBuilder connectionString = new StringBuilder();
-		connectionString.append("\"")
-						.append(url)
-						.append(":" + portNumber)
-						.append("/" + dbName)
-						.append("\", \"")
-						.append(user)
-						.append("\", \"")
-						.append(password)
-						.append("\"");
-		return connectionString.toString();
-	}
-	
-	private static void ptsmtRunCreateTable(Connection conn, String tableName ) {
+	private static void runInsertIntoPersonTablePST(Connection conn, String tableName, Map<String, String> values) {
 		try {
-		PreparedStatement pstmt = conn.prepareStatement("CREATE ?");
-		pstmt.setString(1, tableName);
+			PreparedStatement pstmt = conn.prepareStatement(createInsertString(tableName, values));
+			pstmt.execute();
 		} catch (SQLException ex) {
 			ex.printStackTrace();
 		}
 	}
-	private static void ptsmtShowTables(Connection conn) {
-		try {
-			PreparedStatement pstmt = conn.prepareStatement("SHOW TABLES");
-			Boolean result = pstmt.execute();
-			System.out.println(result);
-			} catch (SQLException ex) {
-				ex.printStackTrace();
-			}
+	private static String createInsertString(String tableName, Map<String, String> values) {
+		if(tableName == null || tableName.trim().length() == 0 || values == null || values.keySet().isEmpty()) {
+			throw new IllegalArgumentException();
+		}
+		StringBuilder bldr = new StringBuilder();
+		bldr.append("INSERT INTO " + tableName)
+			.append("(");
+		
+		Iterator<String> ite = values.keySet().iterator();
+		
+		while(ite.hasNext()) {
+			bldr.append(ite.next() + ", ");
+		}
+		bldr.delete(bldr.length()-2, bldr.length()-1);
+		bldr.append(") VALUES(");
+		ite = values.keySet().iterator();
+		while(ite.hasNext()) {
+			bldr.append("'" + values.get(ite.next()) + "', ");
+		}
+		bldr.delete(bldr.length()-2, bldr.length()-1);
+		bldr.append(")");
+		System.out.println(bldr.toString());
+		return bldr.toString();
 	}
 	
-	private static void ptsmtUseDatabase(Connection conn, String dbName) {
-		try {
-			PreparedStatement pstmt = conn.prepareStatement("USE ?");
-			pstmt.setString(1, dbName);
-//			pstmt.setNString(1, dbName);
-			System.out.println(pstmt.toString());
-			Boolean result = pstmt.execute();
-			System.out.println(result);
-			} catch (SQLException ex) {
-				ex.printStackTrace();
-			}
-	}
+//	private static void showTablesPST(Connection conn) {
+//		try {
+//			PreparedStatement pstmt = conn.prepareStatement("SHOW TABLES");
+//			ResultSet results = pstmt.getResultSet();
+//			while(results.next()) {
+//				System.out.println(results.getString("Tables_in_first_db"));
+//			}
+//			} catch (SQLException ex) {
+//				ex.printStackTrace();
+//			}
+//	}
 	
-	private static void ptsmtShowDatabase(Connection conn) {
+	private static void showDatabasePST(Connection conn) {
 		try {
 			PreparedStatement pstmt = conn.prepareStatement("SHOW DATABASES");
 			if(!pstmt.execute()) {
@@ -89,7 +90,7 @@ public class TestingJDBC {
 			}
 			ResultSet results = pstmt.getResultSet();
 			while(results.next()) {
-				//System.out.println(results.getString("Database"));
+				System.out.println(results.getString("Database"));
 			}
 			pstmt.close();
 		} catch (SQLException ex) {
@@ -104,5 +105,4 @@ public class TestingJDBC {
 			ex.printStackTrace();
 		}
 	}
-
 }
