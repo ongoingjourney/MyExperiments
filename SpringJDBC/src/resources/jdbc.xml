@@ -7,18 +7,19 @@
         http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
         http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd">
 
- 
-	<!-- Dependency Injection with annotations -->
-<!--
-	<context:component-scan base-package="com.sanjeeb.spring" />
-	<mvc:annotation-driven />
- -->
- 
-	<!-- Dependency Injection without annotations -->
-	<bean id="wildanimalwolf" class="com.sanjeeb.spring.Lion"  />
+	<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="driverClassName" value="com.mysql.jdbc.Driver"/>
+		<property name="url" value="jdbc:mysql://localhost:3306/springjdbc"/>
+		<property name="username" value="root"/>
+		<property name="password" value="abc123"/> 
+	</bean>
 	
-	<bean id="zoo" class="com.sanjeeb.spring.Zoo"> 
-		<property name="wildanimal" ref="wildanimalwolf" /> 
+	<bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
+		<property name="dataSource" ref="dataSource"/>
+	</bean>
+	
+	<bean id="employeeDao" class="com.san.dao.EmployeeDaoImpl">
+		<property name = "jdbcTemplate" ref="jdbcTemplate"/>
 	</bean>
 	
 </beans>
