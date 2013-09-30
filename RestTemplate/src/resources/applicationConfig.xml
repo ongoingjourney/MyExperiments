@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="
+        http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd
+        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd">
+
+	<bean id="restTemplate" class="org.springframework.web.client.RestTemplate">
+		<constructor-arg>
+			<bean id="SimpleClientHttpRequestFactory" class="org.springframework.http.client.SimpleClientHttpRequestFactory"/>
+		</constructor-arg>
+	</bean>
+
+	<bean id="httpHeaders" class="org.springframework.http.HttpHeaders">
+		<property name="contentType">
+			<bean id="mediaType" class="org.springframework.http.MediaType">
+				<constructor-arg name="type" value="application"/>
+				<constructor-arg name="subtype" value="xml"/>
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="listener" class="com.sanjeeb.webclient.Listener">
+		<property name="uri">
+			<bean class="java.lang.String">
+				<constructor-arg value="http://localhost:8080/SpringRSWebService/services/addEmp/"/>
+			</bean>
+		</property>
+		<property name="restTemplate" ref="restTemplate"/>
+		<property name ="jsonRequestFormat" value='&lt;?xml version="1.0" encoding="UTF-8"?&gt;&lt;Employee&gt;&lt;empId&gt;%d&lt;/empId&gt;&lt;deptName&gt;%s&lt;/deptName&gt;&lt;/Employee&gt;'/>
+		<property name="httpHeaders" ref="httpHeaders"/>
+	</bean>
+	 
+</beans>
