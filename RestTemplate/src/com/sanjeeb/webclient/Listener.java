@@ -47,5 +47,4 @@ public class Listener {
 	public void setRestTemplate(RestTemplate restTemplate) {
 		this.restTemplate = restTemplate;
 	}
-	
 }

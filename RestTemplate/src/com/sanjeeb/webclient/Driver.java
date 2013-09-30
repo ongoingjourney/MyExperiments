@@ -4,7 +4,9 @@ import org.springframework.beans.factory.BeanFactory;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestClientException;
+import org.springframework.web.client.RestTemplate;
 
 public class Driver {
 	
@@ -14,13 +16,17 @@ public class Driver {
 	}
 	private static void test(BeanFactory factory ) {
 		Listener listener = (Listener )factory.getBean("listener");
-		String requestXmlString = String.format(listener.getJsonRequestFormat(), 15, "kyian");
+		String requestXmlString = String.format(listener.getJsonRequestFormat(), 17, "SalamandarTheGreatTheKingOfAfricaSalamandarTheGreatTheKingOfAfricaSalamandarTheGreatTheKingOfAfricaSalamandarTheGreatTheKingOfAfricaSalamandarTheGreatTheKingOfAfricaSalamandarTheGreatTheKingOfAfricaSalamandarTheGreatTheKingOfAfricaSalamandarTheGreatTheKingOfAfricaSalamandarTheGreatTheKingOfAfricaSalamandarTheGreatTheKingOfAfricaSalamandarTheGreatTheKingOfAfricaSalamandarTheGreatTheKingOfAfricaSalamandarTheGreatTheKingOfAfricaSalamandarTheGreatTheKingOfAfricaSalamandarTheGreatTheKingOfAfricaSalamandarTheGreatTheKingOfAfricaSalamandarTheGreatTheKingOfAfricaSalamandarTheGreatTheKingOfAfricaSalamandarTheGreatTheKingOfAfricaSalamandarTheGreatTheKingOfAfricaSalamandarTheGreatTheKingOfAfricaSalamandarTheGreatTheKingOfAfricaSalamandarTheGreatTheKingOfAfricaSalamandarTheGreatTheKingOfAfricaSalamandarTheGreatTheKingOfAfricaSalamandarTheGreatTheKingOfAfricaSalamandarTheGreatTheKingOfAfricaSalamandarTheGreatTheKingOfAfricaSalamandarTheGreatTheKingOfAfricaSalamandarTheGreatTheKingOfAfricaSalamandarTheGreatTheKingOfAfricaSalamandarTheGreatTheKingOfAfricaSalamandarTheGreatTheKingOfAfricaSalamandarTheGreatTheKingOfAfricaSalamandarTheGreatTheKingOfAfricaSalamandarTheGreatTheKingOfAfricaSalamandarTheGreatTheKingOfAfricaSalamandarTheGreatTheKingOfAfricaSalamandarTheGreatTheKingOfAfricaSalamandarTheGreatTheKingOfAfricaSalamandarTheGreatTheKingOfAfricaSalamandarTheGreatTheKingOfAfricaSalamandarTheGreatTheKingOfAfricaSalamandarTheGreatTheKingOfAfricaSalamandarTheGreatTheKingOfAfricaSalamandarTheGreatTheKingOfAfricaSalamandarTheGreatTheKingOfAfricaSalamandarTheGreatTheKingOfAfricaSalamandarTheGreatTheKingOfAfricaSalamandarTheGreatTheKingOfAfricaSalamandarTheGreatTheKingOfAfricaSalamandarTheGreatTheKingOfAfricaSalamandarTheGreatTheKingOfAfricaSalamandarTheGreatTheKingOfAfrica");
 		
 		HttpHeaders httpHeaders = listener.getHttpHeaders();
 		HttpEntity request = new HttpEntity(requestXmlString, httpHeaders);
+		RestTemplate restTemplate = listener.getRestTemplate();
 		try {
-			String response = listener.getRestTemplate().postForObject(listener.getUri(), request, String.class);
-			System.out.println(response);
+			ResponseEntity<String> responseEntity = restTemplate.postForEntity(listener.getUri(), request, String.class);
+			System.out.println(responseEntity.getStatusCode());
+			System.out.println(responseEntity.getBody());
+			System.out.println(responseEntity.getHeaders());
+			
 		} catch (RestClientException e) {
 			e.printStackTrace();
 		} catch (Exception e) {
