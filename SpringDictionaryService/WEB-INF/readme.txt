@@ -38,5 +38,6 @@
 	
 	http://localhost:8080/SpringDictionaryService/dictionary/getWord/{word}
 	e.g - http://localhost:8080/SpringDictionaryService/dictionary/getWord/pen
-	
+
+	http://localhost:8080/SpringDictionaryService/dictionary/getAllWords
 		

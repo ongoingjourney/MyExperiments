@@ -1,5 +1,7 @@
 package com.sanjeeb.spring.webservice.controller;
 
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -24,5 +26,15 @@ public class DictionaryController {
 	@RequestMapping(value="/putWord/{word}/{meaning}", method=RequestMethod.GET)
 	public @ResponseBody void putWord(@PathVariable("word") String word, @PathVariable("meaning") String meaning) {
 		dictionaryHelper.addDefinition(word, meaning);
+	}
+	
+	@RequestMapping(value="/getAllWords", method=RequestMethod.GET)
+	public @ResponseBody String putWord() {
+		Map<String, String> words = dictionaryHelper.getAllWords();
+		StringBuilder builder = new StringBuilder("Here are the available definitons.<br/>");
+		for(String key : words.keySet()) {
+			builder.append(key).append(" : ").append(words.get(key)).append("<br/>");
+		}
+		return builder.toString();
 	}
 }

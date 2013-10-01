@@ -5,13 +5,15 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import com.sanjeeb.spring.webservice.model.Entity;
 import com.sanjeeb.spring.webservice.persistence.DictionaryDao;
+import com.sanjeeb.spring.webservice.persistence.DictionaryHelper;
 
 public class TestApp {
 	public static void main(String[] args) {
 		BeanFactory context = new ClassPathXmlApplicationContext("resources/applicationContext.xml");
-		DictionaryDao dictionaryDao = (DictionaryDao)context.getBean("dictionaryDao");
+		DictionaryHelper dictionaryHelper = (DictionaryHelper)context.getBean("dictionaryHelper");
 		Entity testWord = new Entity(){{setWord("glass"); setDefinition("small cylindrical container for drinking water");}};
-		dictionaryDao.addDefinition(testWord);
-		dictionaryDao.getDefinition(testWord);
+		//dictionaryHelper.addDefinition("computer", "aMachine");
+		//dictionaryHelper.getDefinition("computer");
+		System.out.println(dictionaryHelper.getAllWords());
 	}
 }

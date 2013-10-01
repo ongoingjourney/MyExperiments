@@ -21,15 +21,16 @@ public class DictionaryDaoImpl implements DictionaryDao {
 	
 	@Override
 	public List<Entity> getAllWords() {
-		List<Entity> resultList = new LinkedList<>();
-	    List resultSet = jdbcTemplate.query(SELECT_DEFINITION_QUERY_STRING, new MemberRowMapper()) ;
-	    if(CollectionUtils.isEmpty(resultSet)) {
+		List resultListFromDB = jdbcTemplate.query(SELECT_ALLWORDS_QUERY_STRING, new MemberRowMapper()) ;
+	    if(CollectionUtils.isEmpty(resultListFromDB)) {
 	    	throw new RuntimeException("Couldn't retrieve");
 	    }
-	    for(Object ob : resultSet) {
-	    	resultSet.add((Entity)ob);
+	    List<Entity> results = new LinkedList<>();
+	    
+	    for(Object ob : resultListFromDB) {
+	    	results.add((Entity)ob);
 	    }
-	    return resultList;
+	    return results;
 	}
 
 	@Override
