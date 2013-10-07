@@ -7,12 +7,23 @@
         http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
         http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd">
 
-	<bean id="trackerAdvisor" class="org.springframework.aop.support.RegexpMethodPointcutAdvisor">
+	<bean id="routetrackerAdvisor" class="org.springframework.aop.support.RegexpMethodPointcutAdvisor">
 		<property name="pattern"  value=".*"/>
 		<property name="advice">
-			<bean id="rideTrackingAdvice" class="com.san.aop.RideTrackingAdvice">
+			<bean id="rideTrackingAdvice" class="com.san.aop.RouteTrackingAdvice">
 				<property name="tracker">
 					<bean id="gpstracker" class="com.san.aop.GPSTracker"/>
+				</property>
+			</bean>
+		</property>
+	</bean>
+	
+	<bean id="timetrackerAdvisor" class="org.springframework.aop.support.RegexpMethodPointcutAdvisor">
+		<property name="pattern"  value=".*"/>
+		<property name="advice">
+			<bean id="timeTrackingAdvice" class="com.san.aop.TimeTrackingAdvice">
+				<property name="timer">
+					<bean id="timetracker" class="com.san.aop.TimerImpl"/>
 				</property>
 			</bean>
 		</property>
@@ -24,7 +35,8 @@
 		<property name="proxyInterfaces" value="com.san.aop.Rider"/>
 		<property name="interceptorNames">
 			<list>
-				<value>trackerAdvisor</value>
+				<value>routetrackerAdvisor</value>
+				<value>timetrackerAdvisor</value>
 			</list>
 		</property>
 	</bean>
