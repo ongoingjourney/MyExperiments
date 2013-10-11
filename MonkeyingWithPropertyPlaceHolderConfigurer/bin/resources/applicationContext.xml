@@ -15,8 +15,11 @@
 		<property name = "valueSeparator" value="~"/>
 		<property name="location" value="resources/config.properties"/>
 	</bean>
-	
-	
+	<bean id="simpleBean" class="com.san.SimpleBean">
+		<property name="name" value="$@$[my.namee:defaultName~blabla]"/>
+		<property name="id" value="$@$[my.id]"/>
+	</bean>
+
 	<!-- 
 	<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
 	
@@ -29,8 +32,4 @@
 		<property name="id" value="{my.id:100}"/>
 	</bean>
 	 -->
-	<bean id="simpleBean" class="com.san.SimpleBean">
-		<property name="name" value="$@$[my.namee:defaultName~blabla]"/>
-		<property name="id" value="$@$[my.id]"/>
-	</bean>	
 </beans>
