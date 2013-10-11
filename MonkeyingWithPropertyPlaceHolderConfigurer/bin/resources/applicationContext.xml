@@ -8,7 +8,7 @@
 	http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd
     http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
     http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd">
-	
+	<!-- 
 	<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
 		<property name = "placeholderPrefix" value="$@$["	/>
 		<property name = "placeholderSuffix" value="]"	/>
@@ -16,20 +16,17 @@
 		<property name="location" value="resources/config.properties"/>
 	</bean>
 	<bean id="simpleBean" class="com.san.SimpleBean">
-		<property name="name" value="$@$[my.namee:defaultName~blabla]"/>
+		<property name="name" value="$@$[my.name~defaultName]"/>
 		<property name="id" value="$@$[my.id]"/>
 	</bean>
-
-	<!-- 
+	 -->
 	<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-	
 		<property name="location">
 			<value>resources/config.properties</value>
 		</property>
 	</bean>
 	<bean id="simpleBean" class="com.san.SimpleBean">
-		<property name="name" value="${my.namee:defaultName}"/>
-		<property name="id" value="{my.id:100}"/>
+		<property name="name" value="${my.name:defaultName} whatevs"/>
+		<property name="id" value="${my.id}"/>
 	</bean>
-	 -->
 </beans>
