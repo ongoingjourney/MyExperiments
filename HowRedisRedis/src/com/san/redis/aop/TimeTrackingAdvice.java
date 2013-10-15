@@ -21,7 +21,7 @@ public class TimeTrackingAdvice implements MethodBeforeAdvice, AfterReturningAdv
 
 	@Override
 	public void before(Method method, Object[] args, Object target) throws Throwable {
-		timer.startTimeTracking();
+		//timer.startTimeTracking();
 	}
 
 	@Override
@@ -31,10 +31,11 @@ public class TimeTrackingAdvice implements MethodBeforeAdvice, AfterReturningAdv
 
 	@Override
 	public Object invoke(MethodInvocation methodArg) throws Throwable {
-		System.out.println("Check if the timer works.");
-		methodArg.proceed();
-		System.out.println("Congratulations. Hope you beat your earlier record");
-		return null;
+		long start = System.nanoTime();
+		Object retVal = methodArg.proceed();
+		long end = System.nanoTime();
+		System.out.println("**It took " + (end-start) + " nanoseconds.");
+		return retVal;
 	}
 	
 	public void afterThrowing(Throwable throwable) {

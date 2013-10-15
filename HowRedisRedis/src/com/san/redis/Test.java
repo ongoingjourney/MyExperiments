@@ -9,5 +9,8 @@ public class Test {
 		UserRedisDao userRedisDao = (UserRedisDao)factory.getBean("userRedisDaoProxy");
 		userRedisDao.clearAll();
 		System.out.println(userRedisDao.logSignInAttempt(new CounterEntity(){{setEmailAddress("abcd@mail.com");}}));
+		System.out.println(userRedisDao.logSignInAttempt(new CounterEntity(){{setEmailAddress("abcd@mail.com");}}));
+		System.out.println(userRedisDao.logSignInAttempt(new CounterEntity(){{setEmailAddress("abcd@mail.com");}}));
+		System.out.println(userRedisDao.logSignInAttempt(new CounterEntity(){{setEmailAddress("abcd@mail.com");}}));
 	}
 }

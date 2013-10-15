@@ -30,7 +30,7 @@
 	
 	<bean id="userRedisDao" class="com.san.redis.UserRedisDaoImpl">
 		<property name="redisTemplate" ref="stringRedisTemplate" />
-		<property name="redisMap" value="${redis.user.counter.map}"/>
+		<!-- <property name="redisMap" value="${redis.user.counter.map}"/> -->
 		<property name="defaultTimeOut" value="3"/>
 	</bean>
 	
