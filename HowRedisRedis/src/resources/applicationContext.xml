@@ -8,11 +8,11 @@
 	http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd
     http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
     http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd">
-	<!-- 
-	<bean id="jedisConnFactory" class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory" p:use-pool="true"/>
-	<bean id="redisTemplate" class="org.springframework.data.redis.core.RedisTemplate" p:connection-factory-ref="jedisConnFactory"/>
-	 -->
 	 
+	<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="location" value="resources/redis.properties"/>
+	</bean>
+
 	 <bean id="jedisPoolConfig" class="redis.clients.jedis.JedisPoolConfig">
 		<property name="maxActive" value="10"/>
 		<property name="maxIdle" value="5"/>
@@ -27,7 +27,31 @@
 	<bean id="stringRedisTemplate" class="org.springframework.data.redis.core.StringRedisTemplate">
 		<constructor-arg ref="jedisConnectionFactory"/>
 	</bean>
-	<bean id="counterDao" class="com.san.redis.CounterDao">
+	
+	<bean id="userRedisDao" class="com.san.redis.UserRedisDaoImpl">
 		<property name="redisTemplate" ref="stringRedisTemplate" />
+		<property name="redisMap" value="${redis.user.counter.map}"/>
+		<property name="defaultTimeOut" value="3"/>
+	</bean>
+	
+	
+	<bean id="timetrackerAdvisor" class="org.springframework.aop.support.RegexpMethodPointcutAdvisor">
+		<property name="pattern"  value=".*logSignInAttempt.*"/>
+		<property name="advice">
+			<bean id="timeTrackingAdvice" class="com.san.redis.aop.TimeTrackingAdvice">
+				<property name="timer">
+					<bean id="timetracker" class="com.san.redis.aop.TimerImpl"/>
+				</property>
+			</bean>
+		</property>
+	</bean>
+	<bean id="userRedisDaoProxy" class="org.springframework.aop.framework.ProxyFactoryBean">
+		<property name="target" ref="userRedisDao"/>
+		<property name="proxyInterfaces" value="com.san.redis.UserRedisDao"/>
+		<property name="interceptorNames">
+			<list>
+				<value>timetrackerAdvisor</value>
+			</list>
+		</property>
 	</bean>
 </beans>

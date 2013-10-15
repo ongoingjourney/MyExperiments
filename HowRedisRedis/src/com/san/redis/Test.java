@@ -6,12 +6,8 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 public class Test {
 	public static void main(String[] args) {
 		BeanFactory factory = new ClassPathXmlApplicationContext("resources/applicationContext.xml");
-		CounterDao counterDao = (CounterDao)factory.getBean("counterDao");
-		//System.out.println(counterDao.logSignInAttempt());
-		counterDao.logSignInAttempt("asdf");
-		counterDao.logSignInAttempt("asdf");
-		counterDao.logSignInAttempt("asdf");
-		counterDao.logSignInAttempt("asdf");
-		counterDao.logSignInAttempt("asdf");
+		UserRedisDao userRedisDao = (UserRedisDao)factory.getBean("userRedisDaoProxy");
+		userRedisDao.clearAll();
+		System.out.println(userRedisDao.logSignInAttempt(new CounterEntity(){{setEmailAddress("abcd@mail.com");}}));
 	}
 }
