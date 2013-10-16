@@ -31,10 +31,11 @@ public class TimeTrackingAdvice implements MethodBeforeAdvice, AfterReturningAdv
 
 	@Override
 	public Object invoke(MethodInvocation methodArg) throws Throwable {
-		long start = System.nanoTime();
+		long start = System.currentTimeMillis();
 		Object retVal = methodArg.proceed();
-		long end = System.nanoTime();
-		System.out.println("**It took " + (end-start) + " nanoseconds.");
+		long end = System.currentTimeMillis();
+		// log this 
+		//System.out.println("**It took " + (end-start) + " millis.");
 		return retVal;
 	}
 	
