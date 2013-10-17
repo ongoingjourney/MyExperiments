@@ -35,7 +35,7 @@
 	</bean>
 	
 	<bean id="timetrackerAdvisor" class="org.springframework.aop.support.RegexpMethodPointcutAdvisor">
-		<property name="pattern"  value=".*logSignInAttempt.*"/>
+		<property name="patterns"  value=".*logSignInAttempt.*, .*getCurrentCountOfKey.*"/>
 		<property name="advice">
 			<bean id="timeTrackingAdvice" class="com.san.redis.aop.TimeTrackingAdvice">
 				<property name="timer">

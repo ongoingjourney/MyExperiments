@@ -10,9 +10,11 @@ public class Test {
 	public static void main(String[] args) {
 		BeanFactory factory = new ClassPathXmlApplicationContext("resources/applicationContext.xml");
 		UserRedisDao userRedisDao = (UserRedisDao)factory.getBean("userRedisDaoProxy");
-		fillDataInRedis(userRedisDao);
-		printAllDataInRedis(userRedisDao);
+		//fillDataInRedis(userRedisDao);
+		//printAllDataInRedis(userRedisDao);
 		//userRedisDao.clearAll();
+		userRedisDao.logSignInAttempt(new CounterEntity(){{setEmailAddress("san@mail.com");}});
+		System.out.println(userRedisDao.getCurrentCountOfKey("san@mail.com"));
     }
 		
 	private static void fillDataInRedis(UserRedisDao userRedisDao)  {

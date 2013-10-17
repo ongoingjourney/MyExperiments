@@ -34,8 +34,7 @@ public class TimeTrackingAdvice implements MethodBeforeAdvice, AfterReturningAdv
 		long start = System.currentTimeMillis();
 		Object retVal = methodArg.proceed();
 		long end = System.currentTimeMillis();
-		// log this 
-		//System.out.println("**It took " + (end-start) + " millis.");
+		System.out.println("**It took " + (end-start) + " millis.");
 		return retVal;
 	}
 	
