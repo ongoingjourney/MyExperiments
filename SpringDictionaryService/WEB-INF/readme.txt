@@ -6,6 +6,9 @@
 		|
 		----WEB-INF
 			|
+			----applicationContext.xml
+			----dictionary-servlet.xml
+			----web.xml
 			----classes
 				|
 				----com
@@ -25,11 +28,6 @@
 				----spring-webmvc-4.0.0.M2.jar
 				----spring-webmvc-portlet-4.0.0.M2.jar
 				
-			----applicationContext.xml
-			----dictionary-servlet.xml
-			----web.xml
-			
-			----applicationContext.xml
 			
 2) Start tomcat with $CATALINA_HOME/bin/catalina.sh run
 3) Currently supported 
@@ -38,6 +36,3 @@
 	
 	http://localhost:8080/SpringDictionaryService/dictionary/getWord/{word}
 	e.g - http://localhost:8080/SpringDictionaryService/dictionary/getWord/pen
-
-	http://localhost:8080/SpringDictionaryService/dictionary/getAllWords
-		
