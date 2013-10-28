@@ -1,0 +1,3 @@
+JAXB
+ http://docs.oracle.com/javaee/5/tutorial/doc/bnazq.html
+ http://docs.oracle.com/javaee/5/tutorial/doc/bnazy.html
