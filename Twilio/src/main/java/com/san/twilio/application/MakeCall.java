@@ -11,7 +11,10 @@ import com.twilio.sdk.resource.factory.CallFactory;
 public class MakeCall {
 	public static final String ACCOUNT_SID = "AC5d9713c0c006630d5bf85ccbcc8134be";
 	public static final String AUTH_TOKEN = "a4a888fe8c43d99cd2a1a59fbbf75a83";
-	public static final String URL = "http://localhost:8080/SpringDictionaryService/dictionary/getResponse";
+	public static final String HOST = "50.174.216.252";
+//	public static final String URL = "http://"+ HOST  + ":8080/SpringDictionaryService/dictionary/getResponse";
+//	public static final String URL = "http://"+ HOST + ":8080/SpringDictionaryService/dictionary/newService";
+	public static final String URL = "http://"+ HOST  + ":8080/SpringDictionaryService/dictionary/getResponseWithPost";
 
 	public static void main(String[] args) throws TwilioRestException {
 		TwilioRestClient client = new TwilioRestClient(ACCOUNT_SID, AUTH_TOKEN);
@@ -23,7 +26,7 @@ public class MakeCall {
 		callParams.put("To", toNumber); // Replace with your phone number
 		callParams.put("From", fromNumber); // Replace with a Twilio number
 		callParams.put("Url", URL);
-		callParams.put("Url", "http://demo.twilio.com/welcome/voice?fromNumber="+toNumber);
+//		callParams.put("Url", "http://demo.twilio.com/welcome/voice?fromNumber="+toNumber);
 		// Make the call
 		Call call = callFactory.create(callParams);
 		// Print the call SID (a 32 digit hex like CA123..)

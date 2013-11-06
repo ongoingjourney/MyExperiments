@@ -16,6 +16,14 @@ public class TwilioController {
 		return response;
 	}
 	
+	@RequestMapping(value="/getResponseWithPost", method = RequestMethod.POST)
+	public @ResponseBody Response getResponseInXMLWithPost() {
+		Response response = new Response();
+		TwilioSayMessage twilioSayMessage = new TwilioSayMessage();
+		response.setTwilioSayMessage(twilioSayMessage);
+		return response;
+	}
+	
 	public static void main(String[] args) {
 		TwilioController controller = new TwilioController();
 		controller.getResponseInXML();

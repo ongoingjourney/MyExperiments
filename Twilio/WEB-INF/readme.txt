@@ -1,13 +1,12 @@
-1) Configure DB - See JDBC settings in applicationContext.xml
-2) To deploy this on tomcat.
+1) To deploy this on tomcat.
 	a) Move src/resources/applicationContext.xml into WEB-INF
 	b) Under $CATALINA_HOME/webapps, your directory structure should be
-		SpringDictionaryService
+		Twilio
 		|
 		----WEB-INF
 			|
 			----applicationContext.xml
-			----dictionary-servlet.xml
+			----twilio-servlet.xml
 			----web.xml
 			----classes
 				|
@@ -31,8 +30,5 @@
 			
 2) Start tomcat with $CATALINA_HOME/bin/catalina.sh run
 3) Currently supported 
-	http://localhost:8080/SpringDictionaryService/dictionary/putWord/{word}/{meaning}
-	e.g - http://localhost:8080/SpringDictionaryService/dictionary/putWord/pen/toWrite
-	
-	http://localhost:8080/SpringDictionaryService/dictionary/getWord/{word}
-	e.g - http://localhost:8080/SpringDictionaryService/dictionary/getWord/pen
+	GET request - http://localhost:8080/Twilio/twilio/getResponse
+	POST reqest - curl -X POST http://localhost:8080/Twilio/twilio/getResponseWithPost
